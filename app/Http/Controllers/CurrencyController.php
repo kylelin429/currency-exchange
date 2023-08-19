@@ -6,16 +6,19 @@ use Illuminate\Http\Request;
 use App\Http\Services\CurrencyService;
 use Illuminate\Validation\Rule;
 use App\Rules\Currency;
+use App\Traits\ErrorParser;
 
 class CurrencyController extends Controller
 {
+    use ErrorParser;
+
     const AVAILABLE_CURRENCY = ['TWD', 'JPY', 'USD'];
 
-    protected $exchangeRateService;
+    protected $currencyService;
 
-    public function __construct(CurrencyService $exchangeRateService)
+    public function __construct(CurrencyService $currencyService)
     {
-        $this->exchangeRateService = $exchangeRateService;
+        $this->currencyService = $currencyService;
     }
 
     public function convertCurrency(Request $request)
@@ -31,23 +34,17 @@ class CurrencyController extends Controller
                 'amount' => ['required', new Currency]
             ]);
 
-            $targetAmount = $this->exchangeRateService->exchangeCurrency($source, $target, $this->parseAmountToInteger($amount));
+            $targetAmount = $this->currencyService->exchangeCurrency($source, $target, $this->parseAmountToInteger($amount));
 
             return response()->json([
                 'msg' => 'success',
                 'amount' => $this->formatTargetAmount($targetAmount)
             ]);
         } catch (\Throwable $exception) {
-            $errors = $exception->getMessage();
-            if (isset($exception->validator)) {
-                $errors = $exception->validator->errors();
-                $errors = implode(' | ', $errors->all());
-            }
-
             return response()->json([
                 'msg' => 'failed',
                 'amount' => '',
-                'debug' => $errors,
+                'debug' => $this->parseException($exception)
             ]);
         }
     }
