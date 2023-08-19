@@ -34,7 +34,7 @@ class CurrencyController extends Controller
                 'amount' => ['required', new Currency]
             ]);
 
-            $targetAmount = $this->currencyService->exchangeCurrency($source, $target, $this->parseAmountToInteger($amount));
+            $targetAmount = $this->currencyService->exchangeCurrency($source, $target, $this->parseNumberAmount($amount));
 
             return response()->json([
                 'msg' => 'success',
@@ -55,7 +55,7 @@ class CurrencyController extends Controller
      * @param $amount
      * @return float
      */
-    protected function parseAmountToInteger($amount)
+    protected function parseNumberAmount($amount)
     {
         $amount = preg_replace("/[^0-9.\-]/", null, $amount);
         return floatval($amount);
