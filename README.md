@@ -11,8 +11,8 @@ Request
 - Request URL: https://xxx/api/currency/convert
 - Method: GET
 - URI Parameters
-    
-    
+  
+  
     | NO. | 名稱 | 型態 | 說明 | 必填 |
     | --- | --- | --- | --- | --- |
     | 1 | source | string | 原始貨幣，支援的類型：TWD, JPY, USD  | Y |
@@ -21,6 +21,8 @@ Request
 - Request Example
 
 `https://xxx/api/currency/convert?source=USD&target=TWD&amount=$1,556.66`
+
+
 
 Response
 
