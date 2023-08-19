@@ -1,12 +1,10 @@
-# test
-
 # Intro
 
-一個簡單的貨幣轉換 API
+提供簡單的貨幣轉換 API
 
-# API
+## API
 
-1. 匯率轉換
+### 1. 匯率轉換
 
 Request
 
