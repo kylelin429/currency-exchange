@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Rules\CurrencyRule;
-use App\Http\Services\Currency;
 use App\Traits\ErrorParser;
-use App\Http\Services\Exchange\JsonExchange;
-use App\Http\Services\CurrencyConverter;
 use Illuminate\Support\Facades\Storage;
-use Facades\App\Http\Services\CurrencyFormatter;
+use App\Http\Services\Currency\Currency;
+use App\Http\Services\Currency\CurrencyConverter;
+use App\Http\Services\Currency\Exchange\JsonExchange;
+use Facades\App\Http\Services\Currency\CurrencyFormatter;
 
 class CurrencyController extends Controller
 {

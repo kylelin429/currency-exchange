@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Currency;
 
-use App\Http\Services\Exchange\JsonExchange;
+use App\Http\Services\Currency\Exchange\JsonExchange;
 
 class CurrencyConverter
 {

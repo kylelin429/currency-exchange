@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Exchange;
+namespace App\Http\Services\Currency\Exchange;
 
 class JsonExchange
 {
