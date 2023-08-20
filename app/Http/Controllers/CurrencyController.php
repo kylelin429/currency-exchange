@@ -9,6 +9,8 @@ use App\Http\Services\Currency;
 use App\Traits\ErrorParser;
 use App\Http\Services\Exchange\JsonExchange;
 use App\Http\Services\CurrencyConverter;
+use Illuminate\Support\Facades\Storage;
+use Facades\App\Http\Services\CurrencyFormatter;
 
 class CurrencyController extends Controller
 {
@@ -29,31 +31,14 @@ class CurrencyController extends Controller
             $targetCode = $request->query('target');
             $amount = $request->query('amount');
 
-            $exchange = new JsonExchange([
-                "TWD" => [
-                    "TWD" => 1,
-                    "JPY" => 3.669,
-                    "USD" => 0.03281
-                ],
-                "JPY" => [
-                    "TWD" => 0.26956,
-                    "JPY" => 1,
-                    "USD" => 0.00885
-                ],
-                "USD" => [
-                    "TWD" => 30.444,
-                    "JPY" => 111.801,
-                    "USD" => 1
-                ]
-            ]);
-            $converter = new CurrencyConverter($exchange);
-
+            $exchangeJson = json_decode(Storage::get('exchange.json'), true)['currencies'];
+            $converter = new CurrencyConverter(new JsonExchange($exchangeJson));
             $sourceCurrency = new Currency($sourceCode, $amount);
-            $targetAmount = $converter->convert($sourceCurrency, $targetCode);
+            $targetCurrency = $converter->convert($sourceCurrency, $targetCode);
 
             return response()->json([
                 'msg' => 'success',
-                'amount' => $this->formatTargetAmount($targetAmount)
+                'amount' => CurrencyFormatter::formatAmount($targetCurrency->getAmount())
             ]);
         } catch (\Throwable $exception) {
             return response()->json([
@@ -62,18 +47,6 @@ class CurrencyController extends Controller
                 'debug' => $this->parseException($exception)
             ]);
         }
-    }
-
-    /**
-     * 格式化輸出金額
-     *
-     * @param $targetAmount
-     * @return string
-     */
-    protected function formatTargetAmount($targetAmount)
-    {
-        $targetAmount = round($targetAmount, 2);
-        return '$' . number_format($targetAmount, 2, '.', ',');
     }
 
 }

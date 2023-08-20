@@ -21,13 +21,14 @@ class CurrencyConverter
      *
      * @param Currency $currency
      * @param string $code
-     * @return string
+     * @return Currency
      */
     public function convert(Currency $currency, $code)
     {
-        $rate = $this->getConversionRate($currency->getCode(), $code);
+        $ratio = $this->getConversionRatio($currency->getCode(), $code);
+        $targetAmount = bcmul($currency->getAmount(), (string)$ratio, 14);
 
-        return bcmul($currency->getAmount(), (string)$rate, 14);
+        return new Currency($code, $targetAmount);
     }
 
     /**
@@ -37,7 +38,7 @@ class CurrencyConverter
      * @param string $targetCode
      * @return float|int
      */
-    private function getConversionRate($sourceCode, $targetCode)
+    private function getConversionRatio($sourceCode, $targetCode)
     {
         $exchangeList = $this->exchange->getList();
         return $exchangeList[$sourceCode][$targetCode];

@@ -16,7 +16,7 @@ class Currency
 
     public function __construct($code, $amount)
     {
-        $this->amount = $this->parseIntegerFromString($amount);
+        $this->amount = $this->parseNumberFromAmount($amount);
         $this->code = $code;
     }
 
@@ -37,27 +37,30 @@ class Currency
     }
 
     /**
-     * @param string $amount Amount 可以帶$符號或是千分位符號，例如 $1,525
+     * 解析貨幣金額的數字部分
+     *
+     * @param string $amount Amount 可以帶$符號、千分位符號或小數點，例如 $1,525.12
      * @return string
      */
-    private function parseIntegerFromString($amount)
+    private function parseNumberFromAmount($amount)
     {
         if ($this->isSymbolExistButNotAtTheStart('$', $amount)) {
-            throw new \InvalidArgumentException('amount must be an valid currency');
+            throw new \InvalidArgumentException('amount must be a valid currency');
         }
 
         $amount = str_replace('$', "", $amount);
         $amount = str_replace(',', "", $amount);
 
-        if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
-            throw new \InvalidArgumentException('amount must be an integer');
+        if (filter_var($amount, FILTER_VALIDATE_INT) === false &&
+            filter_var($amount, FILTER_VALIDATE_FLOAT) === false) {
+            throw new \InvalidArgumentException('amount must be a valid number');
         }
 
         return $amount;
     }
 
     /**
-     * 若有帶貨幣符號(例如 $)，判斷是否在金額開頭
+     * 若包含貨幣符號(例如 $)，判斷是否在金額開頭
      *
      * @param string $symbol
      * @param string $amount
