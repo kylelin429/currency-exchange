@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 use App\Rules\CurrencyRule;
 use App\Http\Services\Currency;
 use App\Traits\ErrorParser;
-use App\Http\Services\Exchange\Exchange;
+use App\Http\Services\Exchange\JsonExchange;
 use App\Http\Services\CurrencyConverter;
 
 class CurrencyController extends Controller
@@ -29,7 +29,7 @@ class CurrencyController extends Controller
             $targetCode = $request->query('target');
             $amount = $request->query('amount');
 
-            $exchange = new Exchange([
+            $exchange = new JsonExchange([
                 "TWD" => [
                     "TWD" => 1,
                     "JPY" => 3.669,
