@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Services\CurrencyService;
 use Illuminate\Validation\Rule;
-use App\Rules\Currency;
+use App\Rules\CurrencyRule;
+use App\Http\Services\Currency;
 use App\Traits\ErrorParser;
+use App\Http\Services\Exchange\Exchange;
+use App\Http\Services\CurrencyConverter;
 
 class CurrencyController extends Controller
 {
@@ -14,27 +16,40 @@ class CurrencyController extends Controller
 
     const AVAILABLE_CURRENCY = ['TWD', 'JPY', 'USD'];
 
-    protected $currencyService;
-
-    public function __construct(CurrencyService $currencyService)
-    {
-        $this->currencyService = $currencyService;
-    }
-
     public function convertCurrency(Request $request)
     {
         try {
-            $source = $request->query('source');
-            $target = $request->query('target');
-            $amount = $request->query('amount');
-
             $request->validate([
                 'source' => ['required', Rule::in(self::AVAILABLE_CURRENCY)],
                 'target' => ['required', Rule::in(self::AVAILABLE_CURRENCY)],
-                'amount' => ['required', new Currency]
+                'amount' => ['required', new CurrencyRule]
             ]);
 
-            $targetAmount = $this->currencyService->exchangeCurrency($source, $target, $this->parseNumberFromAmount($amount));
+            $sourceCode = $request->query('source');
+            $targetCode = $request->query('target');
+            $amount = $request->query('amount');
+
+            $exchange = new Exchange([
+                "TWD" => [
+                    "TWD" => 1,
+                    "JPY" => 3.669,
+                    "USD" => 0.03281
+                ],
+                "JPY" => [
+                    "TWD" => 0.26956,
+                    "JPY" => 1,
+                    "USD" => 0.00885
+                ],
+                "USD" => [
+                    "TWD" => 30.444,
+                    "JPY" => 111.801,
+                    "USD" => 1
+                ]
+            ]);
+            $converter = new CurrencyConverter($exchange);
+
+            $sourceCurrency = new Currency($sourceCode, $amount);
+            $targetAmount = $converter->convert($sourceCurrency, $targetCode);
 
             return response()->json([
                 'msg' => 'success',
@@ -47,18 +62,6 @@ class CurrencyController extends Controller
                 'debug' => $this->parseException($exception)
             ]);
         }
-    }
-
-    /**
-     * 解析輸入金額數字的部份
-     *
-     * @param $amount
-     * @return float
-     */
-    protected function parseNumberFromAmount($amount)
-    {
-        $amount = preg_replace("/[^0-9.\-]/", null, $amount);
-        return floatval($amount);
     }
 
     /**
