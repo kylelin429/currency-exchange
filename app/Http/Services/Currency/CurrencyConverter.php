@@ -2,12 +2,12 @@
 
 namespace App\Http\Services\Currency;
 
-use App\Http\Services\Currency\Exchange\JsonExchange;
+use App\Http\Services\Currency\Exchange\Exchange;
 
 class CurrencyConverter
 {
     /**
-     * @var JsonExchange
+     * @var Exchange
      */
     private $exchange;
 
