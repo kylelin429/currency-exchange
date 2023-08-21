@@ -8,7 +8,7 @@
 
 Request
 
-- Request URL: https://xxx/api/currency/convert
+- Request URL: http://ec2-13-230-162-38.ap-northeast-1.compute.amazonaws.com/api/currency/convert
 - Method: GET
 - URI Parameters
     
@@ -20,7 +20,7 @@ Request
     | 3 | amount | string | 原始貨幣金額 (可以用 $ 開頭) | Y |
 - Request Example
 
-`https://xxx/api/currency/convert?source=USD&target=TWD&amount=$1,556.66`
+`http://ec2-13-230-162-38.ap-northeast-1.compute.amazonaws.com/api/currency/convert?source=USD&target=TWD&amount=$1,556`
 
 Response
 
@@ -35,7 +35,7 @@ Response
 ```json
 {
     "msg": "success",
-    "amount": "$170496.53"
+    "amount": "$47,370.86"
 }
 ```
 
@@ -44,6 +44,7 @@ Response
 ```json
 {
     "msg": "failed",
-    "amount": ""
+    "amount": "",
+    "debug":"The amount must be a valid currency."
 }
 ```
