@@ -18,6 +18,13 @@ class CurrencyController extends Controller
 
     const AVAILABLE_CURRENCY = ['TWD', 'JPY', 'USD'];
 
+    protected $converter;
+
+    public function __construct(CurrencyConverter $converter)
+    {
+        $this->converter = $converter;
+    }
+
     public function convertCurrency(Request $request)
     {
         try {
@@ -32,9 +39,9 @@ class CurrencyController extends Controller
             $amount = $request->query('amount');
 
             $exchangeJson = json_decode(Storage::get('exchange.json'), true)['currencies'];
-            $converter = new CurrencyConverter(new JsonExchange($exchangeJson));
             $sourceCurrency = new Currency($sourceCode, $amount);
-            $targetCurrency = $converter->convert($sourceCurrency, $targetCode);
+            $targetCurrency = $this->converter->setExchange(new JsonExchange($exchangeJson))
+                                              ->convert($sourceCurrency, $targetCode);
 
             return response()->json([
                 'msg' => 'success',

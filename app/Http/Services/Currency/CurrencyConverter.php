@@ -11,9 +11,10 @@ class CurrencyConverter
      */
     private $exchange;
 
-    public function __construct($exchange)
+    public function setExchange($exchange)
     {
         $this->exchange = $exchange;
+        return $this;
     }
 
     /**
