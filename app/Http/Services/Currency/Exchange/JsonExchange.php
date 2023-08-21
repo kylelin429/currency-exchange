@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Currency\Exchange;
 
-class JsonExchange
+class JsonExchange implements Exchange
 {
     /**
      * @var array
