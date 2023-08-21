@@ -38,9 +38,9 @@ class CurrencyController extends Controller
             $targetCode = $request->query('target');
             $amount = $request->query('amount');
 
-            $exchangeJson = json_decode(Storage::get('exchange.json'), true)['currencies'];
+            $jsonExchange = json_decode(Storage::get('exchange.json'), true)['currencies'];
             $sourceCurrency = new Currency($sourceCode, $amount);
-            $targetCurrency = $this->converter->setExchange(new JsonExchange($exchangeJson))
+            $targetCurrency = $this->converter->setExchange(new JsonExchange($jsonExchange))
                                               ->convert($sourceCurrency, $targetCode);
 
             return response()->json([
