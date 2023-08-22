@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class CurrencyRequestTest extends TestCase
 {
-    public function successProvider()
+    public function successExample()
     {
         return [
             'USD to JPY' => [['source' => 'USD', 'target' => 'JPY', 'amount' => '$1,525'], '$170,496.53'],
@@ -21,7 +21,7 @@ class CurrencyRequestTest extends TestCase
         ];
     }
 
-    public function failedProvider()
+    public function failedExample()
     {
         return [
             'Invalid Source' => [['source' => 'AAA', 'target' => 'JPY', 'amount' => '$1,525']],
@@ -33,10 +33,10 @@ class CurrencyRequestTest extends TestCase
     /**
      * 測試成功
      *
-     * @dataProvider successProvider
+     * @dataProvider successExample
      * @return void
      */
-    public function test_success($params, $amount)
+    public function test_currency_convert_success($params, $amount)
     {
         $response = $this->call('get', 'api/currency/convert', $params);
 
@@ -52,10 +52,10 @@ class CurrencyRequestTest extends TestCase
     /**
      * 測試失敗
      *
-     * @dataProvider failedProvider
+     * @dataProvider failedExample
      * @return void
      */
-    public function test_failed($params)
+    public function test_currency_convert_failed($params)
     {
         $response = $this->call('get', 'api/currency/convert', $params);
 

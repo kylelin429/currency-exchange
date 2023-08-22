@@ -9,7 +9,7 @@ use App\Http\Services\Currency\Currency;
 
 class ConverterTest extends TestCase
 {
-    public function successProvider()
+    public function successExample()
     {
         return [
             ['$1,525', 'USD', 'JPY', 111.801, '170496.52500000000000'],
@@ -19,7 +19,7 @@ class ConverterTest extends TestCase
     }
 
     /**
-     * @dataProvider successProvider
+     * @dataProvider successExample
      */
     public function test_conversion($sourceAmt, $sourceCode, $targetCode, $ratio, $result)
     {
