@@ -39,7 +39,7 @@ class CurrencyConverter
      * @param string $targetCode
      * @return float|int
      */
-    private function getConversionRatio($sourceCode, $targetCode)
+    public function getConversionRatio($sourceCode, $targetCode)
     {
         $exchangeList = $this->exchange->getList();
         return $exchangeList[$sourceCode][$targetCode];
