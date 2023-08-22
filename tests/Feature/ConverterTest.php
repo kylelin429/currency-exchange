@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Http\Services\Currency\Currency;
 
-class ConvertTest extends TestCase
+class ConverterTest extends TestCase
 {
     public function successProvider()
     {
