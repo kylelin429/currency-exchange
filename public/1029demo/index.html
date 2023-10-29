@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link rel="stylesheet" href="./dist/bootstrap-datepicker-1.9.0/css/bootstrap-datepicker.css">
+  <link rel="stylesheet" href="./dist/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./dist/font/bootstrap-icons.css">
+</head>
+
+<body>
+  <main class="">
+    <div class="container-fluid py-3 bg-white">
+      <ul id="progressbar">
+        <li class="done">帳號認證</li>
+        <li class="active">會員資料</li>
+        <li>完成註冊</li>
+      </ul>
+      <div class="login-box">
+        <form>
+          <div class="user-box">
+            <input type="number" name="phone" required>
+            <label>手機號碼</label>
+            <span class="text-danger error-text">手機號碼格式錯誤</span>
+            <button type="button" name="phone" class="send-code-btn" id="sendCodeBtn"
+              onclick="sendVerificationCode()">發送認證碼<i class="bi bi-send-fill ml-3"></i></button>
+          </div>
+          <div class="user-box">
+            <input type="text" name="verificationCode" required="">
+            <label>簡訊認證碼</label>
+            <span class="text-danger error-text">驗證失敗</span>
+            <button type="button" class="verify-code-btn mr-4 px-3" id="verifyCodeBtn"
+              onclick="verifyCode()">驗證</button>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="user-box">
+                <input type="text" name="" required="">
+                <label>姓名或暱稱</label>
+                <span class="text-danger error-text">請輸入姓名或暱稱</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="user-box">
+                <input type="text" id="inputDate" name="" required="">
+                <label>生日</label>
+                <span class="text-danger error-text">請選取日期</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="user-box">
+                <select class="w-100 form-select form-select-lg mb-3" aria-label="Large select" required>
+                  <option value="" selected disabled hidden></option>
+                  <option value="1">男</option>
+                  <option value="2">女</option>
+                  <option value="3">其他</option>
+                </select>
+
+                <label>性別</label>
+                <span class="text-danger error-text">請選取性別</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="user-box">
+                <select class="w-100 form-select form-select-lg mb-3" aria-label="選擇縣市" required>
+                  <option value="" selected disabled hidden></option>
+                  <option value="基隆市">基隆市</option>
+                  <option value="台北市">台北市</option>
+                  <option value="新北市">新北市</option>
+                  <option value="桃園市">桃園市</option>
+                  <option value="新竹市">新竹市</option>
+                  <option value="新竹縣">新竹縣</option>
+                  <option value="苗栗縣">苗栗縣</option>
+                  <option value="台中市">台中市</option>
+                  <option value="彰化縣">彰化縣</option>
+                  <option value="南投縣">南投縣</option>
+                  <option value="嘉義市">嘉義市</option>
+                  <option value="嘉義縣">嘉義縣</option>
+                  <option value="台南市">台南市</option>
+                  <option value="高雄市">高雄市</option>
+                  <option value="屏東縣">屏東縣</option>
+                  <option value="宜蘭縣">宜蘭縣</option>
+                  <option value="花蓮縣">花蓮縣</option>
+                  <option value="台東縣">台東縣</option>
+                  <option value="澎湖縣">澎湖縣</option>
+                  <option value="金門縣">金門縣</option>
+                  <option value="連江縣">連江縣</option>
+                </select>
+
+                <label>居住地</label>
+                <span class="text-danger error-text">請選取居住地址</span>
+              </div>
+            </div>
+            <div class="form-check d-flex align-items-center">
+              <input id="flexCheckChecked" type="checkbox">
+              <label for="flexCheckChecked"> 我同意
+                <a href="http://" target="_blank" rel="noopener noreferrer"
+                  style="color: unset;text-decoration: underline;">使用條款</a></label>
+
+            </div>
+
+          </div>
+          <button id="submitBtn" data-step="1" type="button" class="submitBtn" disabled>下一步</button>
+        </form>
+      </div>
+    </div>
+  </main>
+  <!-- Bootstrap Modal -->
+  <div class="modal" id="successModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          註冊成功
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-primary w-100" data-dismiss="modal">好</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <script src="./dist/popper.js"></script> -->
+
+  <script src="./dist/jquery.js"></script>
+  <script src="./dist/bootstrap/js/bootstrap.min.js"></script>
+  <script src="./dist/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="./dist/bootstrap-datepicker-1.9.0/js/bootstrap-datepicker.js"></script>
+  <script src="./dist/bootstrap-datepicker-1.9.0/locales/bootstrap-datepicker.zh-TW.min.js"></script>
+  <script>
+
+    const submitButton = document.getElementById('submitBtn');
+    let countdown;
+    $("#inputDate").datepicker({
+      language: 'zh-TW', //语言
+      autoclose: true, //选择后自动关闭
+      clearBtn: true,//清除按钮
+      format: "yyyy-mm-dd"//日期格式
+    });
+    let seconds = 60;
+    let dataStepValue = submitButton.getAttribute("data-step");
+    const progressBar = document.getElementById("progressbar");
+    const listItems = progressBar.getElementsByTagName("li");
+    function sendVerificationCode() {
+      const phoneInput = document.querySelector('input[name="phone"]');
+      const sendCodeBtn = document.getElementById('sendCodeBtn');
+
+      if (phoneInput.value.trim() !== '') {
+        sendCodeBtn.style.color = 'blue';
+        sendCodeBtn.disabled = true;
+
+        countdown = setInterval(function () {
+          seconds--;
+          sendCodeBtn.textContent = `${seconds}秒後重新發送`;
+          sendCodeBtn.style.color = 'grey';
+
+          if (seconds <= 0) {
+            clearInterval(countdown);
+            sendCodeBtn.textContent = '發送認證碼';
+            sendCodeBtn.style.color = '';
+            sendCodeBtn.disabled = false;
+            seconds = 60;
+          }
+        }, 1000);
+      }
+    }
+    
+    
+    // 驗證簡訊
+    function verifyCode() {
+      const verificationCodeInput = document.querySelector('input[name="verificationCode"]');
+      const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+      
+      // 先暫時設定123是簡訊認證碼
+      if (verificationCodeInput.value === '123') {
+        verifyCodeBtn.innerText = '已驗證';
+        verifyCodeBtn.style.color = 'grey';
+        verifyCodeBtn.style.border = '1px solid grey';
+        verifyCodeBtn.disabled = true;
+        console.log(dataStepValue == 1);
+        if (dataStepValue == 1) {
+          submitButton.setAttribute("data-step", "2");
+        }
+        submitButton.disabled = false;
+      } else {
+        alert('驗證失敗');
+      }
+    }
+    document.getElementById("submitBtn").addEventListener("click", function () {
+      if (submitButton.getAttribute("data-step") == 2) {
+        if (listItems.length >= 3) {
+            listItems[1].classList.remove("active");
+            listItems[1].classList.add("done");
+            listItems[2].classList.add("active");
+          }
+// 這裡可以寫送出前最後的驗證
+
+
+        submitButton.setAttribute("data-step", "3");
+        submitButton.innerText = '送出';
+
+      }
+      else if (submitButton.getAttribute("data-step") == 3) {
+        $('#successModal').modal('show');
+      }
+    });
+  </script>
+</body>
+
+</html>
