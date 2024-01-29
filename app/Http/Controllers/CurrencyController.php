@@ -25,6 +25,17 @@ class CurrencyController extends Controller
         $this->converter = $converter;
     }
 
+    public function stage1()
+    {
+        //test
+        // modify stage1
+    }
+
+    public function stage2()
+    {
+        //test
+    }
+
     public function convertCurrency(Request $request)
     {
         try {
