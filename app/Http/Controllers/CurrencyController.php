@@ -30,6 +30,11 @@ class CurrencyController extends Controller
         //test
     }
 
+    public function stage2()
+    {
+        //test
+    }
+
     public function convertCurrency(Request $request)
     {
         try {
