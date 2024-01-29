@@ -56,6 +56,8 @@ class CurrencyController extends Controller
             $targetCurrency = $this->converter->setExchange(new JsonExchange($jsonExchange))
                                               ->convert($sourceCurrency, $targetCode);
 
+            // modify stage4
+
             return response()->json([
                 'msg' => 'success',
                 'amount' => CurrencyFormatter::formatAmount($targetCurrency->getAmount())
