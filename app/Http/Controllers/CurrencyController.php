@@ -44,6 +44,8 @@ class CurrencyController extends Controller
                 'amount' => ['required', new CurrencyRule]
             ]);
 
+            // modify stage3
+
             $sourceCode = $request->query('source');
             $targetCode = $request->query('target');
             $amount = $request->query('amount');
