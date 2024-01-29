@@ -56,4 +56,8 @@ class CurrencyController extends Controller
         }
     }
 
+    public function dev1()
+    {
+        // test
+    }
 }
