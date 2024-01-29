@@ -28,6 +28,7 @@ class CurrencyController extends Controller
     public function stage1()
     {
         //test
+        // modify stage1
     }
 
     public function stage2()
